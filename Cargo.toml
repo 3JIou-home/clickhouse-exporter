@@ -1,0 +1,40 @@
+[package]
+name = "clickhouse-prometheus-exporter"
+version = "0.1.0"
+edition = "2021"
+
+[package.metadata.deb]
+maintainer = "Dmitriy Vlassov <dmitriy@vlassov.pw>"
+copyright = "Kolesa 2023"
+extended-description = "Prometheus exporter for clickhouse"
+depends = "$auto"
+section = "utils"
+priority = "optional"
+assets = [
+    ["config/config.toml", "/etc/clickhouse-prometheus-exporter/config.toml", "644"],
+    ["target/release/clickhouse-prometheus-exporter", "/usr/bin/clickhouse-prometheus-exporter", "755"]
+]
+conf-files = ["/etc/clickhouse-prometheus-exporter/config.toml"]
+systemd-units = { enable = true }
+maintainer-scripts = "deb_scripts/"
+
+[profile.dev]
+opt-level = 0
+debug = true
+codegen-units = 1
+
+[profile.release]
+opt-level = "z"
+codegen-units = 1
+debug = false
+lto = true
+
+[dependencies]
+axum = "0.6.2"
+clickhouse = "0.11.2"
+tokio = { version="1.20.1", features = ["rt-multi-thread", "macros"] }
+serde = "1.0.152"
+config = "0.13.3"
+lazy_static = "1.4.0"
+clap = { version = "4.0.17", features = ["derive"] }
+log = "0.4.17"

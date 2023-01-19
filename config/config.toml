@@ -1,0 +1,18 @@
+[http]
+host = "0.0.0.0"
+port = 8080
+
+[clickhouse]
+host = "localhost"
+port = 8123
+user = "default"
+database = "default"
+# Mast return metrics in format: metric_name\value
+queries = [
+    "select metric, value from system.metrics",
+    "select metric, value from system.asynchronous_metrics",
+    "select event, value from system.events"
+]
+
+[prometheus]
+prefix = "clickhouse"

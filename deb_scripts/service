@@ -1,0 +1,13 @@
+[Unit]
+Description=Prometheus exporter for clickhouse
+After=network.target fs.target
+StartLimitBurst=5
+
+[Service]
+Restart=always
+RestartSec=2s
+ExecStart=/usr/bin/clickhouse-prometheus-exporter --config /etc/clickhouse-prometheus-exporter/config.toml
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
